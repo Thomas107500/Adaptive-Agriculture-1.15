@@ -1,0 +1,6 @@
+{
+    "parent": "block/crop",
+    "textures": {
+        "crop": "adaptiveagriculture:block/cover_crop_stage2"
+    }
+}
