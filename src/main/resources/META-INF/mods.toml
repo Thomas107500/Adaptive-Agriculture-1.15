@@ -11,7 +11,7 @@ modLoader="javafml" #mandatory
 loaderVersion="[31,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/Thomas107500/Adaptive-Agriculture-1.15" #optional
 
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
@@ -29,7 +29,7 @@ displayName="Adaptive Agriculture" #mandatory
 updateJSONURL="http://myurl.me/" #optional
 
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="http://example.com/" #optional
+displayURL="https://github.com/Thomas107500/Adaptive-Agriculture-1.15" #optional
 
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="examplemod.png" #optional
@@ -43,7 +43,7 @@ authors="Thomas107500" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 
-TODO: NEED A DESCRIPTION HERE
+A mod that adds Crop Rotation and a new plant to the game to hopefully enhance vanilla farming experience!
 
 '''
 
