@@ -2,6 +2,7 @@ package com.Thomas107500.adaptiveagriculture.modclass.block;
 
 import java.util.Random;
 
+import com.Thomas107500.adaptiveagriculture.config.Config;
 import com.Thomas107500.adaptiveagriculture.init.BlockInit;
 
 import net.minecraft.block.BlockState;
@@ -76,8 +77,9 @@ public class InfertileFarmland extends FarmlandBlock {
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) 
 	{
 		//AdaptiveAgriculture.LOGGER.debug("DEBUG:farmland tick called !!!");
-		breakCrop(state, worldIn, pos);
-		
+		if(Config.COMMON.breakCropOnInfertileFarmland.get()) {
+			breakCrop(state, worldIn, pos);
+		}
 		if (!state.isValidPosition(worldIn, pos)) {
 	         turnToInfertileDirt(state, worldIn, pos);
 	      } else {
@@ -99,16 +101,19 @@ public class InfertileFarmland extends FarmlandBlock {
 	public void breakCrop(BlockState state, ServerWorld worldIn, BlockPos pos) 
 	{
 		
-		BlockState possibleplantState = worldIn.getBlockState(pos.up());
 		
-		if(possibleplantState.getBlock() instanceof net.minecraftforge.common.IPlantable)
-		{
-			if(!(possibleplantState.getBlock() instanceof CoverCrop)) 
+			BlockState possibleplantState = worldIn.getBlockState(pos.up());
+		
+			if(possibleplantState.getBlock() instanceof net.minecraftforge.common.IPlantable)
 			{
+				if(!(possibleplantState.getBlock() instanceof CoverCrop)) 
+				{
 				//Crop will break and left no item if fail to harvest on time
 				worldIn.destroyBlock(pos.up(), false);
-			}
+				}
 			
-		}
-	} 
+			}
+	
+		
+	}
 }
