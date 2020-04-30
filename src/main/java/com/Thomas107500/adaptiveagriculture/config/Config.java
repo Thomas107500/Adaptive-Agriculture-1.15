@@ -21,12 +21,12 @@ public class Config {
 		
 		public Common(ForgeConfigSpec.Builder builder) {
 			builder.comment("Adaptive Agriculture Configurations")
-				   .push("adaptive_agriculture");
+				   .push("Adaptive_Agriculture_General");
 			
 			breakCropOnInfertileFarmland = builder
 					.comment("This is set to true to enable infertile farmland breaks normal crop when they are on top of it and false to disable this feature." + "\n" +
-							 "#Value: true/false  DEFAULT: false")
-					.translation("adaptive_agriculture.configgui.breakCropOnInfertileFarmland")
+							 "Value: true/false  DEFAULT: false")
+					.translation("Adaptive_Agriculture_General.configgui.breakCropOnInfertileFarmland")
 					.worldRestart()
 					.define("breakCropOnInfertileFarmland", false);
 			
