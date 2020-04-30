@@ -1,7 +1,6 @@
-# Adaptive Agriculture development branch
+# Adaptive Agriculture
  
-This is the latest development branch of Adaptive Agriculture, which contains unstable and under development code.
+A Minecraft farming related mod made by Thomas107500
 
-# Current Version
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-v1.15.2-0.2.0
