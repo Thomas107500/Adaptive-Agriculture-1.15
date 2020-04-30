@@ -2,7 +2,6 @@ package com.Thomas107500.adaptiveagriculture.modclass.block;
 
 import java.util.Random;
 
-import com.Thomas107500.adaptiveagriculture.AdaptiveAgriculture;
 import com.Thomas107500.adaptiveagriculture.init.BlockInit;
 
 import net.minecraft.block.BlockState;

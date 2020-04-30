@@ -1,6 +1,5 @@
 package com.Thomas107500.adaptiveagriculture.events;
 
-import com.Thomas107500.adaptiveagriculture.AdaptiveAgriculture;
 import com.Thomas107500.adaptiveagriculture.init.BlockInit;
 import com.Thomas107500.adaptiveagriculture.modclass.block.CoverCrop;
 import com.Thomas107500.adaptiveagriculture.modclass.block.InfertileFarmland;
