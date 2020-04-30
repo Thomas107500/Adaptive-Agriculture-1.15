@@ -1,4 +1,4 @@
-# Adaptive Agriculture
+# Adaptive Agriculture development branch
  
 This is the latest development branch of Adaptive Agriculture, which contains unstable and under development code.
 
