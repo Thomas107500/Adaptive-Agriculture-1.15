@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "adaptiveagriculture:infertile_dirt"
+    },
+    {
+      "item": "minercraft:wheat_seeds"
+    }
+  ],
+  "result": {
+    "item": "adaptiveagriculture:cover_crop_seed"
+  }
+}
