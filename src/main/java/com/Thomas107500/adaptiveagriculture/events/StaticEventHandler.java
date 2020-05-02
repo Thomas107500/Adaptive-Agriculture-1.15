@@ -32,7 +32,7 @@ public class StaticEventHandler {
 		
 		if(heldItemStack.getItem() instanceof HoeItem && hitBlock == BlockInit.infertile_dirt.getDefaultState()) 
 		{
-			//AdaptiveAgriculture.LOGGER.debug("DEBUG:Hoe attemp to tilit infertile dirt detected !!!");
+			//AdaptiveAgriculture.LOGGER.debug("DEBUG:Hoe attempt to tilt infertile dirt detected !!!");
 			event.getWorld().setBlockState(hitBlockpos, BlockInit.infertile_farmland.getDefaultState());
 			event.getPlayer().playSound(SoundEvents.ITEM_HOE_TILL, 2f, 1.2f);
 			event.getPlayer().swingArm(Hand.MAIN_HAND);
