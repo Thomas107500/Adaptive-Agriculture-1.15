@@ -18,6 +18,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.world.BlockEvent.CropGrowEvent;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -40,7 +41,7 @@ public class StaticEventHandler {
 		}
 	}
 	@SubscribeEvent
-	public static void onCropGrowPost(CropGrowEvent.Post event) 
+	public static void onHarvestDrops(HarvestDropsEvent event) 
 	{
 		int typeflag = 0;
 		//AdaptiveAgriculture.LOGGER.debug("CropGrowEventPOST Fired !!!"+"BlockPos: "+ event.getPos()+"BlockState: "+ event.getState().toString());
@@ -98,9 +99,10 @@ public class StaticEventHandler {
 			}
 		}
 	}
+
 	
 	
-	protected static void updateBlockstate(CropGrowEvent.Post event) 
+	protected static void updateBlockstate(HarvestDropsEvent event) 
 	{
 		//Check if the block under is FarmlandBlock
 		if(event.getWorld().getBlockState(event.getPos().down()).getBlock() == Blocks.FARMLAND.getBlock()) 
@@ -112,7 +114,7 @@ public class StaticEventHandler {
 		}
 	}
 
-	protected static void fertileSoil(CropGrowEvent.Post event) 
+	protected static void fertileSoil(HarvestDropsEvent event) 
 	{
 		//Check if the block under is Infertile farmland
 		if(event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.infertile_farmland.getBlock()) 
