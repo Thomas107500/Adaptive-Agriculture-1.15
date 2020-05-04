@@ -1,10 +1,15 @@
 package com.Thomas107500.adaptiveagriculture.events;
 
+import java.util.Random;
+
+import com.Thomas107500.adaptiveagriculture.AdaptiveAgriculture;
+import com.Thomas107500.adaptiveagriculture.config.Config;
 import com.Thomas107500.adaptiveagriculture.init.BlockInit;
 import com.Thomas107500.adaptiveagriculture.modclass.block.CoverCrop;
 import com.Thomas107500.adaptiveagriculture.modclass.block.InfertileFarmland;
 
 import net.minecraft.block.BeetrootBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
@@ -17,8 +22,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.CropGrowEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -27,24 +34,39 @@ public class StaticEventHandler {
     public static void HoeUseListener(RightClickBlock event) {
 		//AdaptiveAgriculture.LOGGER.debug("DEBUG:RightClickBlock Fired !!!");
 		
-		BlockPos hitBlockpos = event.getPos();
-		BlockState hitBlock = event.getWorld().getBlockState(hitBlockpos);
+		BlockPos hitBlockPos = event.getPos();
+		BlockState hitBlock = event.getWorld().getBlockState(hitBlockPos);
 		ItemStack heldItemStack = event.getItemStack();
 		
 		if(heldItemStack.getItem() instanceof HoeItem && hitBlock == BlockInit.infertile_dirt.getDefaultState()) 
 		{
 			//AdaptiveAgriculture.LOGGER.debug("DEBUG:Hoe attempt to tilt infertile dirt detected !!!");
-			event.getWorld().setBlockState(hitBlockpos, BlockInit.infertile_farmland.getDefaultState());
-			event.getPlayer().playSound(SoundEvents.ITEM_HOE_TILL, 2f, 1.2f);
-			event.getPlayer().swingArm(Hand.MAIN_HAND);
-			heldItemStack.damageItem(1, event.getPlayer(), (Player) -> {event.getPlayer().sendBreakAnimation(Hand.MAIN_HAND);});
+			turnBlockToFarmland(event, hitBlockPos, heldItemStack, BlockInit.infertile_farmland.getDefaultState());
+		}else if(heldItemStack.getItem() instanceof HoeItem && hitBlock == BlockInit.nourished_dirt.getDefaultState()) 
+		{
+			turnBlockToFarmland(event, hitBlockPos, heldItemStack, BlockInit.nourished_farmland.getDefaultState());
+		}else if(heldItemStack.getItem() instanceof HoeItem && hitBlock == BlockInit.nutrient_rich_dirt.getDefaultState()) 
+		{
+			turnBlockToFarmland(event, hitBlockPos, heldItemStack, BlockInit.nutrient_rich_farmland.getDefaultState());
 		}
 	}
-	@SubscribeEvent
-	public static void onHarvestDrops(HarvestDropsEvent event) 
+	
+	protected static void turnBlockToFarmland(RightClickBlock event, BlockPos hitBlockPos, ItemStack heldItemStack, BlockState farmlandState) 
 	{
+		event.getWorld().setBlockState(hitBlockPos, farmlandState);
+		event.getPlayer().playSound(SoundEvents.ITEM_HOE_TILL, 2f, 1.2f);
+		event.getPlayer().swingArm(Hand.MAIN_HAND);
+		heldItemStack.damageItem(1, event.getPlayer(), (Player) -> {event.getPlayer().sendBreakAnimation(Hand.MAIN_HAND);});
+	}
+	
+	
+	@SubscribeEvent
+	public static void onHarvestDrops(BreakEvent event) 
+	{
+		@SuppressWarnings("unused")
+		BreakEvent eventReference = event;
 		int typeflag = 0;
-		//AdaptiveAgriculture.LOGGER.debug("CropGrowEventPOST Fired !!!"+"BlockPos: "+ event.getPos()+"BlockState: "+ event.getState().toString());
+		AdaptiveAgriculture.LOGGER.debug("CropGrowEventPOST*** Fired !!!"+"BlockPos: "+ event.getPos()+"BlockState: "+ event.getState().toString());
 		//First check to see if it is fully grown (BeetrootBlock and Berry Bush have different state property then CropsBlock)
 		//Might do enum later 
 		if (event.getState().getBlock() instanceof CropsBlock && !(event.getState().getBlock() instanceof CoverCrop)) {typeflag = 1;}
@@ -58,25 +80,25 @@ public class StaticEventHandler {
 		case 1:
 			if(event.getState().get(CropsBlock.AGE) == 7) 
 			{
-				updateBlockstate(event);
+				lowerFarmFertility(event);
 			}
 			break;
 		case 2:
 			if(event.getState().get(BeetrootBlock.BEETROOT_AGE) == 3) 
 			{
-				updateBlockstate(event);
+				lowerFarmFertility(event);
 			}
 			break;
 		case 3:
 			if(event.getState().get(SweetBerryBushBlock.AGE) == 3) 
 			{
-				updateBlockstate(event);
+				lowerFarmFertility(event);
 			}
 			break;
 		case 5:
 			if(event.getState().get(CoverCrop.AGE) == 7) 
 			{
-				fertileSoil(event);
+				raiseFarmFertility(event);
 			}
 			break;
 		default:
@@ -87,6 +109,9 @@ public class StaticEventHandler {
 	@SubscribeEvent
 	public static void onCropGrowPre(CropGrowEvent.Pre event) 
 	{
+		
+		Block plantBlock = event.getState().getBlock();
+		
 		if(event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.infertile_farmland.getBlock()) 
 		{
 			//Not allowing normal plants to grow on infertile farmland
@@ -98,31 +123,68 @@ public class StaticEventHandler {
 				event.setResult(Result.DEFAULT);
 			}
 		}
+		//Weed System
+		if(plantBlock instanceof CropsBlock && !(plantBlock instanceof CoverCrop)|| plantBlock instanceof BeetrootBlock || plantBlock instanceof SweetBerryBushBlock || plantBlock instanceof StemBlock) 
+		{
+			if(!(event.getWorld().getBlockState(event.getPos().north()).getBlock() instanceof CoverCrop) && event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock() ||  
+			   !(event.getWorld().getBlockState(event.getPos().east()).getBlock() instanceof CoverCrop) && event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock() ||
+			   !(event.getWorld().getBlockState(event.getPos().south()).getBlock() instanceof CoverCrop) && event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock() ||
+			   !(event.getWorld().getBlockState(event.getPos().west()).getBlock() instanceof CoverCrop) && event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock()) 
+			{
+				if(getWeedProbRoll()) 
+				{
+					event.getWorld().setBlockState(event.getPos(), BlockInit.weed_crop.getDefaultState(), 2);
+				}
+			}
+		}
 	}
 
-	
-	
-	protected static void updateBlockstate(HarvestDropsEvent event) 
+	protected static boolean getWeedProbRoll() 
 	{
-		//Check if the block under is FarmlandBlock
-		if(event.getWorld().getBlockState(event.getPos().down()).getBlock() == Blocks.FARMLAND.getBlock()) 
+		Random random = new Random();
+		
+		int prob = Math.round(Config.COMMON.weedProbability.get()*100);
+		return random.ints(1, prob + 1).findAny().getAsInt() == 1 ? true : false;
+	}
+	
+	
+	protected static void lowerFarmFertility(BreakEvent eventReference) 
+	{
+		if(eventReference.getWorld().getBlockState(eventReference.getPos().down()).getBlock() == Blocks.FARMLAND.getBlock()) 
 		{
 			//Set the state of infertile farmland to the replaced farmland block
-			Integer farmStateProperty = event.getWorld().getBlockState(event.getPos().down()).get(FarmlandBlock.MOISTURE);
-			event.getWorld().setBlockState(event.getPos().down(), BlockInit.infertile_farmland.getDefaultState().with(InfertileFarmland.MOISTURE, farmStateProperty), 2);
-	
+			Integer farmStateProperty = eventReference.getWorld().getBlockState(eventReference.getPos().down()).get(FarmlandBlock.MOISTURE);
+			eventReference.getWorld().setBlockState(eventReference.getPos().down(), BlockInit.infertile_farmland.getDefaultState().with(InfertileFarmland.MOISTURE, farmStateProperty), 2);
+		}else if(eventReference.getWorld().getBlockState(eventReference.getPos().down()).getBlock() == BlockInit.nourished_farmland.getBlock()) 
+		{
+			updateFarmState(eventReference, Blocks.FARMLAND.getDefaultState());
+		}else if(eventReference.getWorld().getBlockState(eventReference.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock()) 
+		{
+			updateFarmState(eventReference, BlockInit.nourished_farmland.getDefaultState());
 		}
 	}
 
-	protected static void fertileSoil(HarvestDropsEvent event) 
+	protected static void raiseFarmFertility(BreakEvent eventReference) 
 	{
 		//Check if the block under is Infertile farmland
-		if(event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.infertile_farmland.getBlock()) 
+		if(eventReference.getWorld().getBlockState(eventReference.getPos().down()).getBlock() == BlockInit.infertile_farmland.getBlock()) 
 		{
 			//Set the state of farmland to the replaced infertile farmland block
-			Integer farmStateProperty = event.getWorld().getBlockState(event.getPos().down()).get(InfertileFarmland.MOISTURE);
-			event.getWorld().setBlockState(event.getPos().down(), Blocks.FARMLAND.getDefaultState().with(InfertileFarmland.MOISTURE, farmStateProperty), 2);
+			updateFarmState(eventReference, Blocks.FARMLAND.getDefaultState());
+		}else if(eventReference.getWorld().getBlockState(eventReference.getPos().down()).getBlock() == Blocks.FARMLAND.getBlock()) 
+		{
+			updateFarmState(eventReference, BlockInit.nourished_farmland.getDefaultState());
+		}else if(eventReference.getWorld().getBlockState(eventReference.getPos().down()).getBlock() == BlockInit.nourished_farmland.getBlock()) 
+		{
+			updateFarmState(eventReference, BlockInit.nutrient_rich_farmland.getDefaultState());
 		}
 	}
+
+	protected static void updateFarmState(BreakEvent eventReference, BlockState targetFarmState) 
+	{
+		Integer farmStateProperty = eventReference.getWorld().getBlockState(eventReference.getPos().down()).get(InfertileFarmland.MOISTURE);
+		eventReference.getWorld().setBlockState(eventReference.getPos().down(), targetFarmState.with(InfertileFarmland.MOISTURE, farmStateProperty), 2);
+	}
+
 }
 

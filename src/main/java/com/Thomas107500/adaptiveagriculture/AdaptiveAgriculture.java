@@ -66,7 +66,7 @@ public class AdaptiveAgriculture
     private void doClientStuff(final FMLClientSetupEvent event) 
     {
        RenderTypeLookup.setRenderLayer(BlockInit.cover_crop, RenderType.getCutoutMipped());
-      
+       RenderTypeLookup.setRenderLayer(BlockInit.weed_crop, RenderType.getCutoutMipped());
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

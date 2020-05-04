@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "adaptiveagriculture:block/nutrient_rich_dirt"
+    }
+}
