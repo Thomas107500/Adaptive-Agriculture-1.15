@@ -2,7 +2,6 @@ package com.Thomas107500.adaptiveagriculture.events;
 
 import java.util.Random;
 
-import com.Thomas107500.adaptiveagriculture.AdaptiveAgriculture;
 import com.Thomas107500.adaptiveagriculture.config.Config;
 import com.Thomas107500.adaptiveagriculture.init.BlockInit;
 import com.Thomas107500.adaptiveagriculture.modclass.block.CoverCrop;
@@ -24,8 +23,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.CropGrowEvent;
-import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -66,7 +63,7 @@ public class StaticEventHandler {
 		@SuppressWarnings("unused")
 		BreakEvent eventReference = event;
 		int typeflag = 0;
-		AdaptiveAgriculture.LOGGER.debug("CropGrowEventPOST*** Fired !!!"+"BlockPos: "+ event.getPos()+"BlockState: "+ event.getState().toString());
+		//AdaptiveAgriculture.LOGGER.debug("CropGrowEventPOST*** Fired !!!"+"BlockPos: "+ event.getPos()+"BlockState: "+ event.getState().toString());
 		//First check to see if it is fully grown (BeetrootBlock and Berry Bush have different state property then CropsBlock)
 		//Might do enum later 
 		if (event.getState().getBlock() instanceof CropsBlock && !(event.getState().getBlock() instanceof CoverCrop)) {typeflag = 1;}
@@ -142,8 +139,8 @@ public class StaticEventHandler {
 	protected static boolean getWeedProbRoll() 
 	{
 		Random random = new Random();
-		
-		int prob = Math.round(Config.COMMON.weedProbability.get()*100);
+		//TODO: java.lang.ClassCastException: java.lang.Double cannot be cast to java.lang.Float
+		int prob = Math.round((Config.COMMON.weedProbability.get().floatValue()*100));
 		return random.ints(1, prob + 1).findAny().getAsInt() == 1 ? true : false;
 	}
 	

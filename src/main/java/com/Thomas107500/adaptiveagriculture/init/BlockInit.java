@@ -7,7 +7,6 @@ import com.Thomas107500.adaptiveagriculture.modclass.block.FarmlandBase;
 import com.Thomas107500.adaptiveagriculture.modclass.block.InfertileFarmland;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.CropsBlock;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
