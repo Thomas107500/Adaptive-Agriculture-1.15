@@ -6,6 +6,7 @@ import com.Thomas107500.adaptiveagriculture.AdaptiveAgriculture;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -17,7 +18,7 @@ public class Config {
 	public static class Common {
 		
 		public final BooleanValue breakCropOnInfertileFarmland;
-		
+		public final DoubleValue weedProbability;
 		
 		public Common(ForgeConfigSpec.Builder builder) {
 			builder.comment("Adaptive Agriculture Configurations")
@@ -29,6 +30,14 @@ public class Config {
 					.translation("Adaptive_Agriculture_General.configgui.breakCropOnInfertileFarmland")
 					.worldRestart()
 					.define("breakCropOnInfertileFarmland", false);
+			
+			weedProbability = builder
+					.comment("This is the value that determine the chance of weed taking over crops that are not in cover crop range." + "\n" +
+							 "Value range:0.0-1.0 DEFAULT: 0.5")
+					.translation("Adaptive_Agriculture_General.configgui.weedProbability")
+					.worldRestart()
+					.defineInRange("weedProbability", 0.5d, 0.0d, 1.0d);
+			
 			
 			builder.pop();
 		}

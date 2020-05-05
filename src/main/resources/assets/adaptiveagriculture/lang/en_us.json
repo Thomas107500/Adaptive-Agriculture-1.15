@@ -1,5 +1,7 @@
 {
 	"block.adaptiveagriculture.infertile_dirt": "Infertile Dirt",
+	"block.adaptiveagriculture.nourished_dirt": "Nourished Dirt",
+	"block.adaptiveagriculture.nutrient_rich_dirt": "Nutrient Rich Dirt",
 	"item.adaptiveagriculture.cover_crop_seed": "Cover Crop Seed",
 	"itemGroup.adaptive_agriculture_tab": "Adaptive Agriculture"
 

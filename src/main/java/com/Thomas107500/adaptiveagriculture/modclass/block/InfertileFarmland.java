@@ -61,6 +61,7 @@ public class InfertileFarmland extends FarmlandBlock {
 	{
 		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos); 
 	}
+	
 	@Override
 	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) 
 	{

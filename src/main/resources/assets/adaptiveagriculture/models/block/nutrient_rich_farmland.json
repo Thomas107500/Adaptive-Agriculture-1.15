@@ -1,0 +1,8 @@
+{
+    "parent": "block/template_farmland",
+    "textures": {
+        "particle": "adaptiveagriculture:block/nutrient_rich_dirt",
+        "dirt": "adaptiveagriculture:block/nutrient_rich_dirt",
+        "top": "adaptiveagriculture:block/nutrient_rich_farmland"
+    }
+}
