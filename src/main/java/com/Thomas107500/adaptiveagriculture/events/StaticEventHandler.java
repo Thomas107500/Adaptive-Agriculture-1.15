@@ -2,6 +2,7 @@ package com.Thomas107500.adaptiveagriculture.events;
 
 import java.util.Random;
 
+import com.Thomas107500.adaptiveagriculture.AdaptiveAgriculture;
 import com.Thomas107500.adaptiveagriculture.config.Config;
 import com.Thomas107500.adaptiveagriculture.init.BlockInit;
 import com.Thomas107500.adaptiveagriculture.modclass.block.CoverCrop;
@@ -123,14 +124,15 @@ public class StaticEventHandler {
 		//Weed System
 		if(plantBlock instanceof CropsBlock && !(plantBlock instanceof CoverCrop)|| plantBlock instanceof BeetrootBlock || plantBlock instanceof SweetBerryBushBlock || plantBlock instanceof StemBlock) 
 		{
-			if(!(event.getWorld().getBlockState(event.getPos().north()).getBlock() instanceof CoverCrop) && event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock() ||  
-			   !(event.getWorld().getBlockState(event.getPos().east()).getBlock() instanceof CoverCrop) && event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock() ||
-			   !(event.getWorld().getBlockState(event.getPos().south()).getBlock() instanceof CoverCrop) && event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock() ||
-			   !(event.getWorld().getBlockState(event.getPos().west()).getBlock() instanceof CoverCrop) && event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock()) 
+			if(!(event.getWorld().getBlockState(event.getPos().north()).getBlock() instanceof CoverCrop) && 
+			   !(event.getWorld().getBlockState(event.getPos().east()).getBlock() instanceof CoverCrop) && 
+			   !(event.getWorld().getBlockState(event.getPos().south()).getBlock() instanceof CoverCrop) &&
+			   !(event.getWorld().getBlockState(event.getPos().west()).getBlock() instanceof CoverCrop) && 
+			   event.getWorld().getBlockState(event.getPos().down()).getBlock() == BlockInit.nutrient_rich_farmland.getBlock()) 
 			{
 				if(getWeedProbRoll()) 
 				{
-					event.getWorld().setBlockState(event.getPos(), BlockInit.weed_crop.getDefaultState(), 2);
+					event.getWorld().setBlockState(event.getPos(), BlockInit.weed_crop.getDefaultState().with(CropsBlock.AGE, 7), 2);
 				}
 			}
 		}
@@ -139,9 +141,14 @@ public class StaticEventHandler {
 	protected static boolean getWeedProbRoll() 
 	{
 		Random random = new Random();
-		//TODO: java.lang.ClassCastException: java.lang.Double cannot be cast to java.lang.Float
 		int prob = Math.round((Config.COMMON.weedProbability.get().floatValue()*100));
-		return random.ints(1, prob + 1).findAny().getAsInt() == 1 ? true : false;
+		//AdaptiveAgriculture.LOGGER.debug("Rounded random number: "+ prob);
+		int Value = random.ints(0, 100).findAny().getAsInt();
+		//AdaptiveAgriculture.LOGGER.debug("Generated Integer: "+ Value);
+		boolean returnValue = Value < prob ? true : false;
+		//AdaptiveAgriculture.LOGGER.debug("return value: "+ returnValue);
+		return returnValue;
+		
 	}
 	
 	

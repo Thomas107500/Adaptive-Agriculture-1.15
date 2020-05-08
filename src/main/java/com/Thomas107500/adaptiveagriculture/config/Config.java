@@ -19,6 +19,7 @@ public class Config {
 		
 		public final BooleanValue breakCropOnInfertileFarmland;
 		public final DoubleValue weedProbability;
+		public final DoubleValue bonusGrowthProbability;
 		
 		public Common(ForgeConfigSpec.Builder builder) {
 			builder.comment("Adaptive Agriculture Configurations")
@@ -26,17 +27,24 @@ public class Config {
 			
 			breakCropOnInfertileFarmland = builder
 					.comment("This is set to true to enable infertile farmland breaks normal crop when they are on top of it and false to disable this feature." + "\n" +
-							 "Value: true/false  DEFAULT: false")
+							 "Value: true/false 	DEFAULT: false")
 					.translation("Adaptive_Agriculture_General.configgui.breakCropOnInfertileFarmland")
 					.worldRestart()
 					.define("breakCropOnInfertileFarmland", false);
 			
 			weedProbability = builder
-					.comment("This is the value that determine the chance of weed taking over crops that are not in cover crop range." + "\n" +
-							 "Value range:0.0-1.0 DEFAULT: 0.5")
+					.comment("This value determines the chance of weed taking over crops that are not in cover crop range. 1.0 for 100% and 0.0 for 0% ." + "\n" +
+							 "DEFAULT: 0.5")
 					.translation("Adaptive_Agriculture_General.configgui.weedProbability")
 					.worldRestart()
 					.defineInRange("weedProbability", 0.5d, 0.0d, 1.0d);
+			
+			bonusGrowthProbability = builder
+					.comment("This value determines the chance of crops on top of nutrient rich farmland getting a bonus growth tick. 1.0 for 100% and 0.0 for 0%."+"\n"+
+							 "DEFAULT: 0.25")
+					.translation("Adaptive_Agriculture_General.configgui.bonusGrowthProbability")
+					.worldRestart()
+					.defineInRange("bonusGrowthProbability", 0.25d, 0.0d, 1.0d);
 			
 			
 			builder.pop();
