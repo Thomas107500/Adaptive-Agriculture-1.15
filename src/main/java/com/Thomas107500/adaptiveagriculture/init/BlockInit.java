@@ -101,16 +101,14 @@ public class BlockInit {
 				.group(AdaptiveAgriculture.CREATIVE_TAB))
 				.setRegistryName("cover_crop_seed"));
 		
-		event.getRegistry().register(new BlockItem(nourished_farmland, new Item.Properties()
-				.group(AdaptiveAgriculture.CREATIVE_TAB))
+		event.getRegistry().register(new BlockItem(nourished_farmland, new Item.Properties())
 				.setRegistryName("nourished_farmland"));
 	
 		event.getRegistry().register(new BlockItem(nourished_dirt, new Item.Properties()
 				.group(AdaptiveAgriculture.CREATIVE_TAB))
 				.setRegistryName("nourished_dirt"));
 	
-		event.getRegistry().register(new BlockItem(nutrient_rich_farmland, new Item.Properties()
-				.group(AdaptiveAgriculture.CREATIVE_TAB))
+		event.getRegistry().register(new BlockItem(nutrient_rich_farmland, new Item.Properties())
 				.setRegistryName("nutrient_rich_farmland"));
 		
 		event.getRegistry().register(new BlockItem(nutrient_rich_dirt, new Item.Properties()

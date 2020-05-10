@@ -27,7 +27,8 @@ public class Config {
 			
 			breakCropOnInfertileFarmland = builder
 					.comment("This is set to true to enable infertile farmland breaks normal crop when they are on top of it and false to disable this feature." + "\n" +
-							 "Value: true/false 	DEFAULT: false")
+							 "Value: true/false"+"\n"+
+							 "DEFAULT: false")
 					.translation("Adaptive_Agriculture_General.configgui.breakCropOnInfertileFarmland")
 					.worldRestart()
 					.define("breakCropOnInfertileFarmland", false);
@@ -41,10 +42,10 @@ public class Config {
 			
 			bonusGrowthProbability = builder
 					.comment("This value determines the chance of crops on top of nutrient rich farmland getting a bonus growth tick. 1.0 for 100% and 0.0 for 0%."+"\n"+
-							 "DEFAULT: 0.25")
+							 "DEFAULT: 0.16")
 					.translation("Adaptive_Agriculture_General.configgui.bonusGrowthProbability")
 					.worldRestart()
-					.defineInRange("bonusGrowthProbability", 0.25d, 0.0d, 1.0d);
+					.defineInRange("bonusGrowthProbability", 0.16d, 0.0d, 1.0d);
 			
 			
 			builder.pop();
