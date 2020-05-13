@@ -46,7 +46,7 @@ public class CoverCrop extends CropsBlock implements IGrowable{
 	
 	@Override
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-	   return super.isValidGround(state, worldIn, pos) && state.getBlock() == BlockInit.infertile_dirt;
+	   return super.isValidGround(state, worldIn, pos);
 	}
 	
 	

@@ -6,7 +6,10 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.VersionChecker;
+import net.minecraftforge.fml.VersionChecker.CheckResult;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -30,6 +33,7 @@ public class AdaptiveAgriculture
     public static final Logger LOGGER = LogManager.getLogger();
     public static AdaptiveAgriculture instance;
     public static final String MOD_ID = "adaptiveagriculture";
+    public static CheckResult result;
     
     public static final ItemGroup CREATIVE_TAB = new ItemGroup("adaptive_agriculture_tab") 
     {
@@ -60,7 +64,7 @@ public class AdaptiveAgriculture
     private void setup(final FMLCommonSetupEvent event)
     {
     	MinecraftForge.EVENT_BUS.register(StaticEventHandler.class);
-    	
+    	//result = VersionChecker.getResult(ModList.get().getModContainerById(AdaptiveAgriculture.MOD_ID).get().getModInfo());
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) 
@@ -82,7 +86,7 @@ public class AdaptiveAgriculture
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) 
     {
-       
+    	result = VersionChecker.getResult(ModList.get().getModContainerById(AdaptiveAgriculture.MOD_ID).get().getModInfo());
     }
 
    

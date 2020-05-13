@@ -1,5 +1,6 @@
 package com.Thomas107500.adaptiveagriculture.events;
 
+import com.Thomas107500.adaptiveagriculture.AdaptiveAgriculture;
 import com.Thomas107500.adaptiveagriculture.config.Config;
 import com.Thomas107500.adaptiveagriculture.init.BlockInit;
 import com.Thomas107500.adaptiveagriculture.modclass.block.CoverCrop;
@@ -19,11 +20,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.CropGrowEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.VersionChecker.CheckResult;
+import net.minecraftforge.fml.VersionChecker.Status;
 
 public class StaticEventHandler {
 	@SubscribeEvent
@@ -201,6 +207,19 @@ public class StaticEventHandler {
 	{
 		Integer farmStateProperty = eventReference.getWorld().getBlockState(eventReference.getPos().down()).get(InfertileFarmland.MOISTURE);
 		eventReference.getWorld().setBlockState(eventReference.getPos().down(), targetFarmState.with(InfertileFarmland.MOISTURE, farmStateProperty), 2);
+	}
+
+	@SubscribeEvent
+	public static void modUpdateTracker(PlayerLoggedInEvent event) 
+	{
+		if(AdaptiveAgriculture.result.status == Status.OUTDATED) 
+		{
+			event.getPlayer().sendMessage(new StringTextComponent("A new version of Adaptive Agriculture: "+ AdaptiveAgriculture.result.target + " is now available at Curseforge!"));
+		}
+		else if(AdaptiveAgriculture.result.status == Status.FAILED) 
+		{
+			event.getPlayer().sendMessage(new StringTextComponent("Adaptive Agriculture update tracker failed to retreive update information..."));
+		}
 	}
 
 }
