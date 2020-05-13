@@ -26,7 +26,7 @@ version="1.15.2-0.4.1" #mandatory
 displayName="Adaptive Agriculture" #mandatory
 
 # A URL to query for updates for this mod. See the JSON update specification <here>
-updateJSONURL="https://raw.githubusercontent.com/Thomas107500/Adaptive-Agriculture-1.15/development/versionchecker.json" #optional
+updateJSONURL="https://raw.githubusercontent.com/Thomas107500/Adaptive-Agriculture-1.15/master/versionchecker.json" #optional
 
 # A URL for the "homepage" for this mod, displayed in the mod UI
 displayURL="https://github.com/Thomas107500/Adaptive-Agriculture-1.15" #optional
