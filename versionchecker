@@ -1,0 +1,11 @@
+{
+   "homepage":"https://www.curseforge.com/minecraft/mc-mods/adaptive-agriculture",
+   "1.15.2":{
+      "1.15.2-0.4.0":"Loads of bug fixes and added a bonus growth system",
+      "1.15.2-0.4.1":"Added mod version tracker"
+   },
+   "promos":{
+      "1.15.2-latest":"1.15.2-0.4.1",
+      "1.15.2-recommended":"1.15.2-0.4.1"
+   }
+}
