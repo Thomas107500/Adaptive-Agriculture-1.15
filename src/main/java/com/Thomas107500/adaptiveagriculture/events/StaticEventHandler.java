@@ -214,13 +214,17 @@ public class StaticEventHandler {
 	{
 		if(AdaptiveAgriculture.result.status == Status.OUTDATED) 
 		{
-			event.getPlayer().sendMessage(new StringTextComponent("A new version of Adaptive Agriculture: "+ AdaptiveAgriculture.result.target + " is now available at Curseforge!"));
+			event.getPlayer().sendMessage(new StringTextComponent("A new stable version of Adaptive Agriculture: "+ AdaptiveAgriculture.result.target + " is now available at Curseforge!"+"\n"+
+										  						  "For the latest version chnagelog please read the Curseforge page project description."));
 		}
 		else if(AdaptiveAgriculture.result.status == Status.FAILED) 
 		{
 			event.getPlayer().sendMessage(new StringTextComponent("Adaptive Agriculture update tracker failed to retreive update information..."));
 		}
 	}
+
+	
+
 
 }
 

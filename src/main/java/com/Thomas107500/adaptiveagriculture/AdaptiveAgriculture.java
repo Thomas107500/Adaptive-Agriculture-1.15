@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import com.Thomas107500.adaptiveagriculture.config.Config;
 import com.Thomas107500.adaptiveagriculture.events.StaticEventHandler;
 import com.Thomas107500.adaptiveagriculture.init.BlockInit;
+import com.Thomas107500.adaptiveagriculture.integration.IntergrationManager;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AdaptiveAgriculture.MOD_ID)
@@ -80,7 +81,7 @@ public class AdaptiveAgriculture
 
     private void processIMC(final InterModProcessEvent event)
     {
-       
+       IntergrationManager.processIntegration();
     }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
